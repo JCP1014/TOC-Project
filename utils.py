@@ -176,7 +176,7 @@ def show_result_button(place, food, id):
         return 0
 
 def show_info(place,food,id,num):
-     img_url ,name, url, map, more_url, status = search_result(place,food,id)
+    img_url ,name, url, map, more_url, status = search_result(place,food,id)
     if status==1:
         if num==1 :    
             buttons = [
