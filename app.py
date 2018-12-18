@@ -10,6 +10,8 @@ machine = TocMachine(
     states=[
         'user',
         'options',
+        # option1
+        # option2
         'choosePlace',
         'chooseFood',
         'search',

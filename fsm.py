@@ -116,8 +116,10 @@ class TocMachine(GraphMachine):
     def on_enter_search(self, event):
         print("I'm entering search")
         sender_id = event['sender']['id']
-        show_result_button(place,food,sender_id)
-
+        status = show_result_button(place,food,sender_id)
+        if status==0:
+            self.go_back()
+            
     def on_enter_top1(self, event):
         print("I'm entering top1")
         sender_id = event['sender']['id']
