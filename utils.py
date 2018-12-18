@@ -121,7 +121,7 @@ def search_result(place, food, id):
     for i in range(len(items)):
         if items[i]:
             name.append(items[i].get('data-shopname'))
-            url.append(items[i].get(href))
+            url.append(items[i].get('href'))
     img = []
     items = soup.find_all('img', 'lazy')
     for i in range(len(items)):
