@@ -88,18 +88,21 @@ def search_result(place, food, id):
     else:
         status = 0
 
-    '''
+
     shop1 = soup.find('a',attrs={'data-action':'shop_1'})
     name1 = re.sub('\s','',shop1.text)
 
-    url1 = root_url + shop1.get('href')
-
+    if shop1:
+        url1 = root_url + shop1.get('href')
+    else:
+        status = 0    
+    '''
     img1 = soup.find('img',attrs={'title':name1})
     if img1:
         img1_url = img1.get('src')
     else:
         status = 0    
-
+    '''
     shop2 = soup.find('a',attrs={'data-action':'shop_2'})
     name2 = re.sub('\s','',shop2.text)
 
@@ -107,21 +110,13 @@ def search_result(place, food, id):
         url2 = root_url + shop2.get('href')
     else:
         status = 0    
-
+    '''
     img2 = soup.find('img',attrs={'title':name2})
     if img2:
         img2_url = img2.get('src')
     else:
         status = 0    
     '''
-
-    name = []
-    url = []
-    items = soup.find_all('a', 'a37 ga_tracking')
-    for i in range(len(items)):
-        if items[i]:
-            name.append(items[i].get('data-shopname'))
-            url.append(items[i].get('href'))
     img = []
     items = soup.find_all('img', 'lazy')
     for i in range(len(items)):
@@ -141,25 +136,25 @@ def search_result(place, food, id):
             status = 0    
 
     if status==1:
-        return img, name, url, map_url, more_url,status
+        return img, name1, name2, url1, url2, map_url, more_url,status
     else:
-        return None, None, None, None, None, None, None, None, status
+        return None, None, None, None, None, None, None, status
 
 def show_result_button(place, food, id):
     search_url = 'http://www.ipeen.com.tw/search/taiwan/000/1-0-0-0/'
-    img_url ,name, url, map_url, more_url, status = search_result(place, food, id)
+    img_url ,name1, name2, url1, url2, map_url, more_url, status = search_result(place, food, id)
     if status==1:
         send_image_url(id,img_url[0])
         send_image_url(id,img_url[1])
         buttons = [
                         {
                             "type": "postback",
-                            "title": name[0],
+                            "title": name1,
                             "payload": "top1"
                         },
                         {
                             "type": "postback",
-                            "title": name[1],
+                            "title": name2,
                             "payload": "top2"
                         },
                         {
@@ -176,7 +171,7 @@ def show_result_button(place, food, id):
         return 0
 
 def show_info(place,food,id,num):
-    img_url ,name, url, map, more_url, status = search_result(place,food,id)
+    img_url ,name1, name2, url1, url2, map, more_url, status = search_result(place,food,id)
     if status==1:
         if num==1 :    
             buttons = [
@@ -188,12 +183,12 @@ def show_info(place,food,id,num):
                         },
                         {
                             "type": "web_url",
-                            "url": url[0],
+                            "url": url1,
                             "title": "詳細資料",
                             "webview_height_ratio": "full"
                         }
                     ]
-            send_button_message(id,name[0],buttons)
+            send_button_message(id,name1,buttons)
     
         if num==2 :    
             buttons = [
@@ -205,12 +200,12 @@ def show_info(place,food,id,num):
                         },
                         {
                             "type": "web_url",
-                            "url": url[1],
+                            "url": url2,
                             "title": "詳細資料",
                             "webview_height_ratio": "full"
                         }
                     ]
-            send_button_message(id,name[1],buttons)
+            send_button_message(id,name2,buttons)
         return 1
     else:
         send_text_message(id,"搜尋失敗")
