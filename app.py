@@ -139,7 +139,7 @@ machine = TocMachine(
         {
             'trigger': 'go_back',
             'source': [
-
+                'search'
             ],
             'dest': 'user'
         }
