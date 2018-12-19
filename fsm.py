@@ -213,7 +213,7 @@ class TocMachine(GraphMachine):
         sender_id = event['sender']['id']
         print("sender_id = " + sender_id)
         response = send_button_message(sender_id,"請選擇功能",buttons)
-        addToDB(sender_id,"3",'麥當勞')
+        #addToDB(sender_id,"3",'麥當勞')
         #self.go_back()
     
     def on_enter_q1(self, event):
