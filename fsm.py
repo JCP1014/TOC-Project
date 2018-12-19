@@ -181,7 +181,7 @@ class TocMachine(GraphMachine):
         if event.get("message"):
             if event['message'].get('text'):
                 text = event['message']['text']
-                return text == '回到主選單'
+                return text == '回到主選單' or text == '主選單'
         return False
     
     def is_going_to_last(self, event):
