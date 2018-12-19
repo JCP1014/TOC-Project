@@ -54,5 +54,7 @@
     export PORT=5000
     python3 app.py
     
-    # And then open another terminal and excute:
-    ./ngrok http 5000
+   And then open another terminal and excute:
+   ```
+   ./ngrok http 5000
+   ```
