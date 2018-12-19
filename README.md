@@ -38,7 +38,21 @@
   * 點選"查看目前收藏名單"將列出目前名單裡的店家供使用者確認
     > 已可正確從database取得店家名稱並列出
 ## 如何使用
+* 粉絲專頁名稱：**之後再改名**
 * 一開始輸入"主選單"或是"go to options"，即會跳出三種功能的按鈕供使用者選擇
 * 根據chatbot回傳的訊息，點擊按鈕或是輸入文字
     > **但  *主選單 >> 從我常去的店家中挑選 >> 新增或移除店家* -- 此功能目前無法使用尚待修復**
 * 任何時候皆可透過輸入"回到主選單"，返回重新選擇功能
+
+## Deploy on Heroku
+* App name : project--what-to-eat
+* Domain : https://project--what-to-eat.herokuapp.com/
+* Add-ons : ClearDB MySQL
+## 本地端執行方式
+    export ACCESS_TOKEN="EAAKoYb0nyqYBACfdmgljZBQRiNowZBdtwq4Y78Q4kxPVo8bZBBZAfRWpbPMw1TFoZCZCFdy4lKixMXBwJ9V3WuPWcCT9TnbkYpOsNIx4ZAxeJ1EaPKxyVm2JPlb03udD32xlgOHs9qufDQk4wWKTXZBTQU38QsyOO89nygiM9tDElwZDZD"
+    export VERIFY_TOKEN="verify"
+    export PORT=5000
+    python3 app.py
+    
+    # And then open another terminal and excute:
+    ./ngrok http 5000
