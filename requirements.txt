@@ -3,3 +3,4 @@ pygraphviz==1.5
 requests==2.20.1
 transitions==0.6.9
 BeautifulSoup4==4.6.3
+PyMySQL==0.9.3

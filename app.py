@@ -6,35 +6,105 @@ from fsm import TocMachine
 PORT = os.environ['PORT']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 
+'''
+db = pymysql.connect("us-cdbr-iron-east-01.cleardb.net","bab38ab676ea34","3fa941dd","heroku_257480eb04565de")
+cursor = db.cursor()
+cursor.execute("SELECT VERSION()")
+data = cursor.fetchone()
+print("Database version : %s " % data)
+db.close()
+'''
+
 machine = TocMachine(
     states=[
         'user',
-        'options',
         # option1
+        'q1',
+        'q2',
+        'q3',
+        'q4',
+        'q5',
+        'determine',
         # option2
         'choosePlace',
         'chooseFood',
         'search',
         'top1',
-        'top2'
+        'top2',
+        # option3
+        'setting',
+        'random',
+        'modify',
+        'add',
+        'dele',
+        'list'
     ],
     transitions=[
         {
             'trigger': 'advance',
             'source': 'user',
-            'dest': 'options',
+            'dest': 'user',
             'conditions': 'is_going_to_options'
         },
-        # back
         {
             'trigger': 'advance',
-            'source': 'options',
+            'source': 'user',
             'dest': 'user',
-            'conditions': 'is_going_to_last'
+            'conditions': 'is_going_to_user'
+        },
+        # option1
+        {
+            'trigger': 'advance',
+            'source': 'user',
+            'dest': 'q1',
+            'conditions': 'is_going_to_q1'
         },
         {
             'trigger': 'advance',
-            'source': 'options',
+            'source': 'q1',
+            'dest': 'q2',
+            'conditions': 'is_going_to_q2'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'q2',
+            'dest': 'q3',
+            'conditions': 'is_going_to_q3'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'q3',
+            'dest': 'q4',
+            'conditions': 'is_going_to_q4'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'q4',
+            'dest': 'q5',
+            'conditions': 'is_going_to_q5'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'q5',
+            'dest': 'determine',
+            'conditions': 'is_going_to_determine'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'determine',
+            'dest': 'q1',
+            'conditions': 'is_going_to_redetermine'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'determine',
+            'dest': 'user',
+            'conditions': 'is_going_to_giveup'
+        },
+        # option2
+        {
+            'trigger': 'advance',
+            'source': 'user',
             'dest': 'choosePlace',
             'conditions': 'is_going_to_choosePlace'
         },
@@ -42,7 +112,7 @@ machine = TocMachine(
         {
             'trigger': 'advance',
             'source': 'choosePlace',
-            'dest': 'options',
+            'dest': 'user',
             'conditions': 'is_going_to_last'
         },
         {
@@ -122,24 +192,107 @@ machine = TocMachine(
             'dest': 'search',
             'conditions': 'is_going_to_last'
         },
+        # option3
+        {
+            'trigger': 'advance',
+            'source': 'user',
+            'dest': 'setting',
+            'conditions': 'is_going_to_setting'
+        },
+        # option3-1
+        {
+            'trigger': 'advance',
+            'source': 'setting',
+            'dest': 'random',
+            'conditions': 'is_going_to_random'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'random',
+            'dest': 'random',
+            'conditions': 'is_going_to_rerandom'
+        },
+        # option3-3
+        {
+            'trigger': 'advance',
+            'source': 'setting',
+            'dest': 'modify',
+            'conditions': 'is_going_to_modify'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'modify',
+            'dest': 'add',
+            'conditions': 'is_going_to_add'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'modify',
+            'dest': 'dele',
+            'conditions': 'is_going_to_dele'
+        },
+        # option3-3
+        {
+            'trigger': 'advance',
+            'source': 'setting',
+            'dest': 'list',
+            'conditions': 'is_going_to_list'
+        },
         # back to initial
         {
             'trigger': 'advance',
             'source': [
-                'options',
-                'choosePlace',
-                'chooseFood',
-                'search',
-                'top1',
-                'top2'
+                        'user',
+                        'q1',
+                        'q2',
+                        'q3',
+                        'q4',
+                        'q5',
+                        'determine',
+                        'choosePlace',
+                        'chooseFood',
+                        'search',
+                        'top1',
+                        'top2',
+                        'setting',
+                        'random',
+                        'modify',
+                        'add',
+                        'dele',
+                        'list'
             ],
             'dest': 'user',
-            'conditions': 'is_going_to_initial'
+            'conditions': 'is_going_to_user'
+        },
+
+        {
+            'trigger': 'advance',
+            'source': [
+                        'user',
+                        'q1',
+                        'q2',
+                        'q3',
+                        'q4',
+                        'q5',
+                        'determine',
+                        'choosePlace',
+                        'chooseFood',
+                        'search',
+                        'top1',
+                        'top2',
+                        'random',
+                        'modify',
+                        'add',
+                        'dele',
+                        'list'
+            ],
+            'dest': 'user',
+            'conditions': 'is_going_to_options'
         },
         {
             'trigger': 'go_back',
             'source': [
-                'search'
+
             ],
             'dest': 'user'
         }
